@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "938392535538",
+    "firebase_url": "https://chat-e3411-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "chat-e3411",
+    "storage_bucket": "chat-e3411.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:938392535538:android:25b24bee77a991d093ab6b",
+        "android_client_info": {
+          "package_name": "com.example.chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "938392535538-jpdc05cjs3uisem5u7pivlntli2cmh9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClORFbuykaiqYEVvMLfTDdtH1uOOD45PA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "938392535538-jpdc05cjs3uisem5u7pivlntli2cmh9m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
