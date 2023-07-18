@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -21,9 +22,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private static int MAX_MESSAGE_SIZE = 180;
+    private static final int MAX_MESSAGE_SIZE = 180;
 
-    private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private final FirebaseDatabase db = FirebaseDatabase.getInstance();
     private final DatabaseReference dbref = db.getReference("messages");
 
     EditText messageInput;
@@ -48,12 +49,10 @@ public class MainActivity extends AppCompatActivity {
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String message = messageInput.getText().toString();
-
-
+                String message = messageInput.getText().toString().trim();
 
                 if (message.equals("")) {
-                    Toast.makeText(getApplicationContext(), "Message is empty!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Message is empty", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -68,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         dbref.addChildEventListener(new ChildEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String message = snapshot.getValue(String.class);
