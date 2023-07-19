@@ -23,6 +23,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private static final int MAX_MESSAGE_SIZE = 180;
+    private static final String EMPTY_MESSAGE_ERROR = "Message is empty";
+    private static final String LONG_MESSAGE_ERROR = "Message longer than 200 characters";
 
     private final FirebaseDatabase db = FirebaseDatabase.getInstance();
     private final DatabaseReference dbref = db.getReference("messages");
@@ -31,6 +33,23 @@ public class MainActivity extends AppCompatActivity {
     Button sendMessageButton;
     RecyclerView messagesRecycler;
     ArrayList<String> messages = new ArrayList<>();
+
+    public void sendMessageOnClick(View view) {
+        String message = messageInput.getText().toString().trim();
+
+        if (message.equals("")) {
+            Toast.makeText(getApplicationContext(), EMPTY_MESSAGE_ERROR, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (message.length() > MAX_MESSAGE_SIZE) {
+            Toast.makeText(getApplicationContext(), LONG_MESSAGE_ERROR, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        dbref.push().setValue(message);
+        messageInput.setText("");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,26 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
         messagesRecycler.setAdapter(dataAdapter);
 
-        sendMessageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String message = messageInput.getText().toString().trim();
-
-                if (message.equals("")) {
-                    Toast.makeText(getApplicationContext(), "Message is empty", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (message.length() > MAX_MESSAGE_SIZE) {
-                    Toast.makeText(getApplicationContext(), "Message longer than 200 characters", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                dbref.push().setValue(message);
-                messageInput.setText("");
-            }
-        });
-
         dbref.addChildEventListener(new ChildEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -77,24 +76,16 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 }
